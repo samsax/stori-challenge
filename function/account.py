@@ -1,4 +1,4 @@
-from models import db, Account 
+from function.models import db, Account 
 
 def get_or_create_account():
     if(not db.is_connection_usable):
