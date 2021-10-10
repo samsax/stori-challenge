@@ -1,6 +1,7 @@
 from peewee import *
 
-db = SqliteDatabase('stori.db')
+db = MySQLDatabase('database-1', user='admin', password='challenge',
+                         host='database-1.cjyf1rwy9oid.us-east-2.rds.amazonaws.com', port=3306)
 
 class Account(Model):
     name = CharField()
