@@ -11,6 +11,13 @@ def lambda_handler(event, _):
     input_file = csv.DictReader(awsFile.file)
     summary = summary_transacction(input_file, new_person)
     send_mail_summary(summary)
+    return { 
+        'message' : 'done',
+        'summary' : {
+            'balance' : summary.balance,
+            'transaction' : summary.transaction,
+        }
+    }
 
 
 def main():
