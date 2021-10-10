@@ -22,7 +22,7 @@ phases:
     commands:
       - echo "Updating lambda Function..."
       - aws lambda update-function-code --function-name testingLambda --zip-file fileb://deployment_package.zip
-      - echo "DONE!!"
+      - echo "DONE!"
 Resources:
   function:
     Type: AWS::Serverless::Function
