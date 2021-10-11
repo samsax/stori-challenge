@@ -1,6 +1,6 @@
 import boto3
 
-class s3File():
+class S3File():
     def __init__(self,file,file_name):
         self.file = file
         self.file_name = file_name
@@ -15,8 +15,7 @@ class AwsServices():
             bucket_name = file_identier["s3"]["bucket"]["name"]
             file_name = file_identier["s3"]["object"]["key"]
             data = s3.get_object(Bucket=bucket_name, Key=file_name)
-            file = data['Body']
-            file = data['Body'].read().decode().split("\r\n")
-            return{file: file, file_name: file_name}
+            file = data['Body'].read().decode("utf-8")
+            return S3File(file,file_name)
         except Exception as exception:
             print("Error as: {}".format(exception))
