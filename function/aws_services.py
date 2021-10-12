@@ -13,7 +13,11 @@ class AwsServices():
         self.event = event
     def get_s3_file(self):
         try:
+            logger.info("## GET S3 FILE")
             s3 = boto3.client('s3')
+        except Exception as exception:
+            logger.info("Error S3 connection: {}".format(exception))
+        try:    
             file_identier = self.event["Records"][0]
             bucket_name = file_identier["s3"]["bucket"]["name"]
             file_name = file_identier["s3"]["object"]["key"]
