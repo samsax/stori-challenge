@@ -15,10 +15,10 @@ db = MySQLDatabase(db_name, user=name, password=password,
                          host=rds_host, port=3306)
 
 class Account(Model):
-    name = CharField()
+    account_number = CharField()
     email = CharField()
     class Meta:
-        database = db # This model uses the "stori.db" database.
+        database = db 
 
 
 class Transaction(Model):
@@ -27,4 +27,4 @@ class Transaction(Model):
     amount = CharField()
 
     class Meta:
-        database = db # this model uses the "stori.db" database
+        database = db 

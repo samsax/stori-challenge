@@ -1,6 +1,7 @@
 from function.summary import Summary
 from function.models import db, Transaction
-import datetime
+from datetime import datetime 
+from function.email_sender import SendMail
 
 
 
@@ -12,9 +13,10 @@ def summary_transacction(input_file, person):
     total_credit = []
     total_debit = []
     for row in input_file:
-        transaction = Transaction.create(amount=row['Transaction'], create_date=row['Date'], owner = person)
+        create_date = datetime.strptime(row['Date'], '%m/%d').date()
+        create_date = create_date.replace(year= datetime.now().year)
+        transaction = Transaction.create(amount=row['Transaction'], create_date=str(create_date), owner = person)
         transaction.save()
-        create_date = datetime.datetime.strptime(row['Date'], '%m/%d').date()
         if create_date.month  in months:
             months[create_date.month] += 1   
         else: 
@@ -33,7 +35,8 @@ def summary_transacction(input_file, person):
 
 
 def send_mail_summary(summary):
-    pass
+    sendMail = SendMail(summary)
+    sendMail.send()
 
 
 def average(lst):
