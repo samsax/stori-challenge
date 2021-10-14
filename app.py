@@ -11,6 +11,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 config = Config(connect_timeout=5, retries={'max_attempts': 0})
 s3 = boto3.client('s3', config=config)
+import pandas 
 def lambda_handler(event, _):
     try:
         logger.info('## ENVIRONMENT VARIABLES')
@@ -21,7 +22,7 @@ def lambda_handler(event, _):
         awsFile = awsServices.get_s3_file()
         logger.info(awsFile)
         new_person = get_or_create_account(awsFile.file_name)
-        input_file = csv.DictReader(StringIO(awsFile.file))
+        input_file = pandas.read_csv(awsFile.file).to_dict('records')
         logger.info(input_file)
         summary = summary_transacction(input_file, new_person)
         send_mail_summary(summary)
@@ -37,7 +38,9 @@ def lambda_handler(event, _):
 
 
 def main():
-    input_file = csv.DictReader(open('./txns.csv'))
+    file = open('./txns.csv')
+    print(type(open('./txns.csv')))
+    input_file =  pandas.read_csv(file).to_dict('records')
     print(input_file)
     new_person = get_or_create_account('txns')
     summary = summary_transacction(input_file, new_person)
