@@ -20,7 +20,7 @@ class AwsServices():
             bucket_name = file_identier["s3"]["bucket"]["name"]
             file_name = file_identier["s3"]["object"]["key"]
             data = self.s3.get_object(Bucket=bucket_name, Key=file_name)
-            file = data['Body'].read().decode("utf-8")
+            file = data['Body'].read()
             logger.info(file)
             logger.info(file_name)
             return S3File(file,file_name)
