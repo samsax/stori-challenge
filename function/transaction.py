@@ -17,9 +17,12 @@ def summary_transacction(input_file, person):
     total_debit = []
     for row in input_file:
         try:
+            logger.info(row)
             create_date = datetime.strptime(row['Date'], '%m/%d').date()
             create_date = create_date.replace(year= datetime.now().year)
+            logger.info(str(create_date))
             transaction = Transaction.create(amount=row['Transaction'], create_date=str(create_date), owner = person)
+            logger.info(transaction)
             transaction.save()
             if create_date.month  in months:
                 months[create_date.month] += 1   
