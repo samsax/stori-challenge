@@ -22,7 +22,7 @@ def lambda_handler(event, _):
         awsFile = awsServices.get_s3_file()
         logger.info(awsFile)
         new_person = get_or_create_account(awsFile.file_name)
-        input_file = pandas.read_csv(awsFile.file).to_dict('records')
+        input_file = pandas.read_csv(StringIO(awsFile.file)).to_dict('records')
         logger.info(input_file)
         summary = summary_transacction(input_file, new_person)
         send_mail_summary(summary)
