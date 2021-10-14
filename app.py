@@ -6,6 +6,7 @@ import os
 import logging
 from botocore.client import Config
 import boto3
+from io import StringIO
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 config = Config(connect_timeout=5, retries={'max_attempts': 0})
@@ -20,7 +21,7 @@ def lambda_handler(event, _):
         awsFile = awsServices.get_s3_file()
         logger.info(awsFile)
         new_person = get_or_create_account(awsFile.file_name)
-        input_file = csv.DictReader(awsFile.file)
+        input_file = csv.DictReader(StringIO(awsFile.file))
         logger.info(input_file)
         summary = summary_transacction(input_file, new_person)
         send_mail_summary(summary)
