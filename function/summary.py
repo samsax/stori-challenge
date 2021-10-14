@@ -5,3 +5,12 @@ class Summary():
         self.credit = credit
         self.debit = debit
         self.transaction = 0
+
+    def credit_average(self):
+        return self.average(self.credit)
+    
+    def debit_average(self):
+        return self.average(self.debit)
+
+    def average(self,lst):
+        return round(sum(lst) / len(lst),2)

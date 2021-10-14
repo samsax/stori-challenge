@@ -1,13 +1,16 @@
 import boto3
 from botocore.exceptions import ClientError
+import datetime
+
+
 class SendMail:
-    def __init__(self,summary):
+    def __init__(self, summary):
         self.summary = summary
     # Replace sender@example.com with your "From" address.
     # This address must be verified with Amazon SES.
     SENDER = "Stori <samuelarenas@hotmail.es>"
 
-    # Replace recipient@example.com with a "To" address. If your account 
+    # Replace recipient@example.com with a "To" address. If your account
     # is still in the sandbox, this address must be verified.
     RECIPIENT = "samuelsaxofon@gmail.com"
 
@@ -15,11 +18,11 @@ class SendMail:
     AWS_REGION = "us-east-2"
 
     # The subject line for the email.
-    SUBJECT = "Resumen de transacciones"
+    SUBJECT = "Account state"
 
     # The email body for recipients with non-HTML email clients.
-    BODY_TEXT = ("Resumen de transacciones\r\n")
-                
+    BODY_TEXT = ("Account state\r\n")
+
     # The HTML body of the email.
     BODY_HTML = """
                     <!DOCTYPE HTML
@@ -39,124 +42,124 @@ class SendMail:
 
                     <style type="text/css">
                         table,
-                        td {
+                        td {{
                         color: #000000;
-                        }
+                        }}
 
-                        a {
+                        a {{
                         color: #0000ee;
                         text-decoration: underline;
-                        }
+                        }}
 
-                        @media (max-width: 480px) {
-                        #u_content_image_1 .v-text-align {
+                        @media (max-width: 480px) {{
+                        #u_content_image_1 .v-text-align {{
                             text-align: center !important;
-                        }
+                        }}
 
-                        #u_content_heading_1 .v-font-size {
+                        #u_content_heading_1 .v-font-size {{
                             font-size: 24px !important;
-                        }
+                        }}
 
-                        #u_content_heading_3 .v-font-size {
+                        #u_content_heading_3 .v-font-size {{
                             font-size: 16px !important;
-                        }
+                        }}
 
-                        #u_content_button_4 .v-padding {
+                        #u_content_button_4 .v-padding {{
                             padding: 15px !important;
-                        }
+                        }}
 
-                        #u_content_heading_13 .v-font-size {
+                        #u_content_heading_13 .v-font-size {{
                             font-size: 16px !important;
-                        }
+                        }}
 
-                        #u_column_4 .v-col-padding {
+                        #u_column_4 .v-col-padding {{
                             padding: 0px !important;
-                        }
+                        }}
 
-                        #u_content_heading_4 .v-font-size {
+                        #u_content_heading_4 .v-font-size {{
                             font-size: 16px !important;
-                        }
-                        }
+                        }}
+                        }}
 
-                        @media only screen and (min-width: 620px) {
-                        .u-row {
+                        @media only screen and (min-width: 620px) {{
+                        .u-row {{
                             width: 600px !important;
-                        }
+                        }}
 
-                        .u-row .u-col {
+                        .u-row .u-col {{
                             vertical-align: top;
-                        }
+                        }}
 
-                        .u-row .u-col-50 {
+                        .u-row .u-col-50 {{
                             width: 300px !important;
-                        }
+                        }}
 
-                        .u-row .u-col-100 {
+                        .u-row .u-col-100 {{
                             width: 600px !important;
-                        }
+                        }}
 
-                        }
+                        }}
 
-                        @media (max-width: 620px) {
-                        .u-row-container {
+                        @media (max-width: 620px) {{
+                        .u-row-container {{
                             max-width: 100% !important;
                             padding-left: 0px !important;
                             padding-right: 0px !important;
-                        }
+                        }}
 
-                        .u-row .u-col {
+                        .u-row .u-col {{
                             min-width: 320px !important;
                             max-width: 100% !important;
                             display: block !important;
-                        }
+                        }}
 
-                        .u-row {
+                        .u-row {{
                             width: calc(100% - 40px) !important;
-                        }
+                        }}
 
-                        .u-col {
+                        .u-col {{
                             width: 100% !important;
-                        }
+                        }}
 
-                        .u-col>div {
+                        .u-col>div {{
                             margin: 0 auto;
-                        }
-                        }
+                        }}
+                        }}
 
-                        body {
+                        body {{
                         margin: 0;
                         padding: 0;
-                        }
+                        }}
 
                         table,
                         tr,
-                        td {
+                        td {{
                         vertical-align: top;
                         border-collapse: collapse;
-                        }
+                        }}
 
                         .ie-container table,
-                        .mso-container table {
+                        .mso-container table {{
                         table-layout: fixed;
-                        }
+                        }}
 
-                        * {
+                        * {{
                         line-height: inherit;
-                        }
+                        }}
 
-                        a[x-apple-data-detectors='true'] {
+                        a[x-apple-data-detectors='true'] {{
                         color: inherit !important;
                         text-decoration: none !important;
-                        }
+                        }}
 
-                        @media (max-width: 480px) {
-                        .hide-mobile {
+                        @media (max-width: 480px) {{
+                        .hide-mobile {{
                             max-height: 0px;
                             overflow: hidden;
                             display: none !important;
-                        }
+                        }}
 
-                        }
+                        }}
                     </style>
 
 
@@ -197,7 +200,7 @@ class SendMail:
                                                     <tr>
                                                     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="left">
 
-                                                        <img align="left" border="0" src="images/image-1.png" alt="Logo" title="Logo"
+                                                        <img align="left" border="0" src="https://www.storicard.com/img/logo-black.png" alt="Logo" title="Logo"
                                                         style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 55%;max-width: 148.5px;"
                                                         width="148.5" />
 
@@ -298,7 +301,7 @@ class SendMail:
 
                                                     <h1 class="v-text-align v-font-size"
                                                     style="margin: 0px; color: #e4f9f5; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial black,avant garde,arial; font-size: 28px;">
-                                                    Resumen de transaciones
+                                                    State account
                                                     </h1>
 
                                                 </td>
@@ -316,7 +319,7 @@ class SendMail:
 
                                                     <h4 class="v-text-align v-font-size"
                                                     style="margin: 0px; color: #e4f9f5; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial black,avant garde,arial; font-size: 16px;">
-                                                    Saldo actual
+                                                    Total balance
                                                     </h4>
 
                                                 </td>
@@ -335,7 +338,7 @@ class SendMail:
                                                     <div class="v-text-align" align="center">
                                                     <a href="https://unlayer.com/" target="_blank"
                                                         style="box-sizing: border-box;display: inline-block;font-family:arial,helvetica,sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #0a81ab; border-radius: 50px;-webkit-border-radius: 50px; -moz-border-radius: 50px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #e4f9f5; border-top-style: solid; border-top-width: 4px; border-left-color: #e4f9f5; border-left-style: solid; border-left-width: 4px; border-right-color: #e4f9f5; border-right-style: solid; border-right-width: 4px; border-bottom-color: #e4f9f5; border-bottom-style: solid; border-bottom-width: 4px;">
-                                                        <span class="v-padding" style="display:block;padding:20px;line-height:120%;"></span>
+                                                        <span class="v-padding" style="display:block;padding:20px;line-height:120%;">$ {balance}</span>
                                                     </a>
 
                                                     </div>
@@ -355,7 +358,7 @@ class SendMail:
 
                                                     <h4 class="v-text-align v-font-size"
                                                     style="margin: 0px; color: #e4f9f5; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial black,avant garde,arial; font-size: 16px;">
-                                                    Resumen
+                                                    Summary
                                                     </h4>
 
                                                 </td>
@@ -407,7 +410,7 @@ class SendMail:
                                         <div style="width: 100% !important;">
                                         <div class="v-col-padding"
                                             style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
-                                            <!--<![endif]-->
+                                        
 
                                             <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0"
                                             cellspacing="0" width="100%" border="0">
@@ -453,23 +456,12 @@ class SendMail:
                                         <div style="width: 100% !important;">
                                         <div class="v-col-padding"
                                             style="padding: 0px 0px 0px 10px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
-                                            <!--<![endif]-->
+                                        
 
                                             <table id="u_content_heading_4" style="font-family:arial,helvetica,sans-serif;"
                                             role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
                                             <tbody>
-                                                <tr>
-                                                <td
-                                                    style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
-                                                    align="left">
-
-                                                    <h3 class="v-text-align v-font-size"
-                                                    style="margin: 0px; color: #ffffff; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 18px;">
-
-                                                    </h3>
-
-                                                </td>
-                                                </tr>
+                                                {table_summary}
                                             </tbody>
                                             </table>
                                         </div>
@@ -486,17 +478,20 @@ class SendMail:
                     </body>
 
                     </html>
-                """            
+                """
 
     # The character encoding for the email.
     CHARSET = "UTF-8"
+
     def send(self):
         # Create a new SES resource and specify a region.
-        client = boto3.client('ses',region_name=self.AWS_REGION)
-
+        client = boto3.client('ses', region_name=self.AWS_REGION)
+        table_summary  = self.create_table_summary(self.summary)
+        email_params = dict(balance=self.summary.balance, table_summary= table_summary)
+        self.BODY_HTML = self.BODY_HTML.format(**email_params)
         # Try to send the email.
         try:
-            #Provide the contents of the email.
+            # Provide the contents of the email.
             response = client.send_email(
                 Destination={
                     'ToAddresses': [
@@ -507,7 +502,7 @@ class SendMail:
                     'Body': {
                         'Html': {
                             'Charset': self.CHARSET,
-                            'Data': self.BODY_HTML,
+                            'Data': self.BODY_HTML
                         },
                         'Text': {
                             'Charset': self.CHARSET,
@@ -521,9 +516,52 @@ class SendMail:
                 },
                 Source=self.SENDER,
             )
-        # Display an error if something goes wrong.	
+        # Display an error if something goes wrong.
         except ClientError as e:
             print(e.response['Error']['Message'])
         else:
             print("Email sent! Message ID:"),
             print(response['MessageId'])
+
+
+    def create_table_summary(self,summary):
+        months_summary = ""
+        for month in summary.months_transacctions:
+            month_name = datetime.date(1900, month, 1).strftime('%B')
+            months_summary += self.generate_row(
+                f"Number of transactions in {month_name}: ",summary.months_transacctions[month])
+        return f"""
+        {self.generate_row("Total balance is:",self.money_format(summary.balance))}
+        {self.generate_row("Average debit amount:",self.money_format(summary.debit_average()))}
+        {self.generate_row("Average credit amount:",self.money_format(summary.credit_average()))}
+        {months_summary}
+        """
+        
+    def money_format(self, value):
+        return f"$ {round(value,2)}"
+
+    def generate_row(self,name,value):
+        return f"""
+            <tr>
+                <td
+                    style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
+                    align="left">
+
+                    <h3 class="v-text-align v-font-size"
+                    style="margin: 0px; color: #ffffff; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 18px;">
+                    {name}
+                    </h3>
+
+                </td>
+                <td
+                    style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;"
+                    align="left">
+
+                    <h3 class="v-text-align v-font-size"
+                    style="margin: 0px; color: #ffffff; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 18px;">
+                    {value}
+                    </h3>
+
+                </td>
+            </tr>
+            """

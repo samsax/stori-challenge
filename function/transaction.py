@@ -36,8 +36,6 @@ def summary_transacction(input_file, person):
             print(error)
             logger.info("Error when proccesing file: {}".format(error))
     balance = sum(total_credit) + sum(total_debit)
-    average_credit = average(total_credit)
-    average_debit = average(total_debit)
     summary = Summary(months,balance,total_credit,total_debit)
 
     return summary
@@ -49,6 +47,3 @@ def send_mail_summary(summary):
     sendMail.send()
 
 
-def average(lst):
-    print(lst)
-    return round(sum(lst) / len(lst),2)
