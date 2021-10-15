@@ -4,7 +4,6 @@ class Summary():
         self.balance = balance
         self.credit = credit
         self.debit = debit
-        self.transaction = 0
 
     def credit_average(self):
         return self.average(self.credit)

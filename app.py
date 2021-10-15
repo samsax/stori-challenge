@@ -1,7 +1,7 @@
-import csv
+from function.email_sender import SendMail
+from function.transaction import Transactions
 from function.account import get_or_create_account
 from function.aws_services import AwsServices
-from function.transaction import send_mail_summary, summary_transacction
 import os
 import logging
 from botocore.client import Config
@@ -24,13 +24,14 @@ def lambda_handler(event, _):
         new_person = get_or_create_account(awsFile.file_name)
         input_file = pandas.read_csv(StringIO(awsFile.file)).to_dict('records')
         logger.info(input_file)
-        summary = summary_transacction(input_file, new_person)
-        send_mail_summary(summary)
+        transacctions = Transactions()
+        summary = transacctions.summary_transacction(input_file, new_person)
+        sendMail = SendMail(summary)
+        sendMail.send()
         return { 
             'message' : 'done',
             'summary' : {
                 'balance' : summary.balance,
-                'transaction' : summary.transaction,
             }
         }
     except Exception as error:
@@ -39,12 +40,12 @@ def lambda_handler(event, _):
 
 def main():
     file = open('./txns.csv')
-    print(type(open('./txns.csv')))
     input_file =  pandas.read_csv(file).to_dict('records')
-    print(input_file)
-    new_person = get_or_create_account('txns')
-    summary = summary_transacction(input_file, new_person)
-    send_mail_summary(summary)
+    new_person = get_or_create_account('txns.csv')
+    transacctions = Transactions()
+    summary = transacctions.summary_transacction(input_file, new_person)
+    sendMail = SendMail(summary)
+    sendMail.send()
 
 if __name__ == '__main__':
     main()

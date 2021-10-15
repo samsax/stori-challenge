@@ -1,7 +1,9 @@
 import boto3
 from botocore.exceptions import ClientError
 import datetime
-
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 class SendMail:
     def __init__(self, summary):
@@ -18,10 +20,10 @@ class SendMail:
     AWS_REGION = "us-east-2"
 
     # The subject line for the email.
-    SUBJECT = "Account state"
+    SUBJECT = "Statement"
 
     # The email body for recipients with non-HTML email clients.
-    BODY_TEXT = ("Account state\r\n")
+    BODY_TEXT = ("Statement\r\n")
 
     # The HTML body of the email.
     BODY_HTML = """
@@ -301,7 +303,7 @@ class SendMail:
 
                                                     <h1 class="v-text-align v-font-size"
                                                     style="margin: 0px; color: #e4f9f5; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial black,avant garde,arial; font-size: 28px;">
-                                                    State account
+                                                    Statement
                                                     </h1>
 
                                                 </td>
@@ -518,10 +520,10 @@ class SendMail:
             )
         # Display an error if something goes wrong.
         except ClientError as e:
-            print(e.response['Error']['Message'])
+            logger.info(e.response['Error']['Message'])
         else:
-            print("Email sent! Message ID:"),
-            print(response['MessageId'])
+            logger.info("Email sent! Message ID:")
+            logger.info(response['MessageId'])
 
 
     def create_table_summary(self,summary):
